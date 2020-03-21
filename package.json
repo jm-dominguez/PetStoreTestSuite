@@ -1,0 +1,22 @@
+{
+  "name": "petstoretestsuite",
+  "version": "1.0.0",
+  "description": "Test Suite for pet store API",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jm-dominguez/PetStoreTestSuite.git"
+  },
+  "author": "Juan Manuel Dominguez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jm-dominguez/PetStoreTestSuite/issues"
+  },
+  "homepage": "https://github.com/jm-dominguez/PetStoreTestSuite#readme",
+  "devDependencies": {
+    "jest": "^25.1.0"
+  }
+}
