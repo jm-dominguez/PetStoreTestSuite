@@ -4,7 +4,7 @@
   "description": "Test Suite for pet store API",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,10 @@
   "homepage": "https://github.com/jm-dominguez/PetStoreTestSuite#readme",
   "devDependencies": {
     "jest": "^25.1.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "faker": "^4.1.0",
+    "properties-reader": "^1.0.0"
   }
 }
