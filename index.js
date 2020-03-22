@@ -10,7 +10,7 @@ const getInventory = () =>{
                     return res.data
                 })
                 .catch(err =>{
-                    console.log(err);
+                    throw(err);
                 })
 }
 
@@ -30,8 +30,8 @@ const deleteOrder = (orderId) =>{
                     return res.data;
                 })
                 .catch(err=>{
-                    console.log(err);
-                })
+                    throw err;
+                });
 }
 
 const postOrder = (pId,pPetId, pQuantity, pShipDate, pStatus, pComplete) =>{

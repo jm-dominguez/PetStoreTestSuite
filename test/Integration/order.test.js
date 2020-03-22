@@ -1,21 +1,6 @@
-const {getInventory, getOrder, deleteOrder, postOrder} = require('./index.js');
-const {postPet, deletePet, updatePet, updatePetWithForm} = require('./helper/helper.js');
+const {getOrder, deleteOrder, postOrder} = require('../../index.js');
+const {postPet, deletePet} = require('../../helper/helper.js');
 const faker = require('faker');
-
-//Get Inventory
-test('getInventory data types are correct', ()=>{
-    expect.assertions(3);
-    return getInventory().then((res)=>{
-    
-        let sold = res.sold;
-        let pending = res.pending;
-        let available = res.available;
-
-        expect(typeof sold).toBe("number");
-        expect(typeof pending).toBe("number");
-        expect(typeof available).toBe("number");
-    })
-});
 
 describe('create and query an order for a pet ', ()=>{
     //Data mocking
@@ -26,7 +11,7 @@ describe('create and query an order for a pet ', ()=>{
     beforeAll(async () =>  await postPet(255,name, [], "available"));
     //Teardown
     afterAll(async () => {
-        await deletePet(petId);
+        await deletePet(255);
         await deleteOrder(555);
     });
 
@@ -78,7 +63,43 @@ describe('create and query an order for a pet ', ()=>{
     })   
 });
 
+describe('Order deletion', () =>{
+    //Data mocking
+    let name = faker.name.firstName();
+    let date = new Date();
+    let quantity = faker.random.number();
+    //Setup
+    beforeAll(async () => {
+        await postPet(255,name, [], "available");
+        await postOrder(555, 255, quantity, date, "placed",true);
+    });
+    //Teardown
+    afterAll(async()=> {
+        await deletePet(255);
+    });
+    //Test
+    test('Delete order', ()=>{
+        expect.assertions(1);
+        return deleteOrder(555).then(res => {
+            expect(res.code).toBe(200);
+        })
+    });
 
+    test('Delete order that does not exist', () =>{
+        expect.assertions(2);
+        return deleteOrder(1920).then().catch(err =>{
+            console.log(err.response.data.message);
+            console.log(err.response.status);
+            expect(err.response.data.message).toBe("Order Not Found");
+            expect(err.response.status).toBe(404);
+        });
+
+    });
+});
+
+describe('Inventory updates', () =>{
+
+});
 
 
 
