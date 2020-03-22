@@ -1,4 +1,5 @@
 const axios = require('axios');
+const qs = require('qs');
 //Get the base url from the properties file.
 const PropertiesReader = require('properties-reader');
 const properties = PropertiesReader('./config.properties');
@@ -31,7 +32,7 @@ const deletePet = (petId)=>{
                     return res.data;
                 })
                 .catch(err=>{
-                    console.log(err);
+                    throw err;
                 })
 };
 
@@ -57,13 +58,25 @@ const updatePetWithForm = (pId, pName, pStatus)=>{
     formData.append("name", pName);
     formData.append("status", pStatus);
 
-    return axios.post(BASE_URL + 'pet/' + pId, formData).then(res =>{
+    return axios({
+        method: 'post',
+        url: BASE_URL + 'pet/' + pId,
+        data: qs.stringify({
+          name: pName,
+          status: pStatus
+        }),
+        headers: {
+            'content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+    .then(res =>{
         return res.data;
     })
     .catch(err =>{
         console.log(err);
     });
 }
+
 
 exports.postPet = postPet;
 exports.deletePet = deletePet;
