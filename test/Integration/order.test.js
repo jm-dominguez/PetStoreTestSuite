@@ -1,120 +1,213 @@
 const {getOrder, deleteOrder, postOrder} = require('../../index.js');
 const {postPet, deletePet} = require('../../helper/helper.js');
-const faker = require('faker');
+const {fakePetData, fakeOrderData, mockId} = require('../../helper/fake.js');
+const {shouldFakeData, getIntegrationOrderConfig} = require('../../helper/config.js');
 
+let fakeData = shouldFakeData();
+let config;
+if(fakeData === false){
+    config = getIntegrationOrderConfig();
+};
+
+//Create and Query an order
 describe('create and query an order for a pet ', ()=>{
-    //Data mocking
-    let name = faker.name.firstName();
-    let date = new Date();
-    let quantity = faker.random.number();
-    let complete = faker.random.boolean();
+    let pet; 
+    let order; 
     //Setup
-    beforeAll(async () =>  await postPet(255,name, [], "available"));
+    beforeAll(async () =>  {
+        if(fakeData === true){
+            pet = fakePetData();
+            order = fakeOrderData(pet.id);
+        }
+        else {
+            let data = config.createandqueryorder;
+            pet = data.pet;
+            order = data.order;
+            let tempDate = order.shipDate;
+            order.shipDate = new Date(tempDate);
+        }
+        await postPet(pet);
+    });
     //Teardown
     afterAll(async () => {
-        await deletePet(255);
-        await deleteOrder(800);
+        await deletePet(pet.id);
+        await deleteOrder(order.id);
+        pet = null;
+        order = null;
     });
 
-    //Tests
+    //Test order creation
     test('Post a buy order for a pet', ()=>{
-        expect.assertions(5);
-        return postOrder(800, 255, quantity, date, "placed",complete)
+        expect.assertions(6);
+        return postOrder(order)
         .then(res =>{
-            let id = res.id;
-            let quantity2 = res.quantity;
-            let date2 = res.shipDate;
-            let status = res.status;
-            let complete2 = res.complete;
-
-            expect(id).toBe(800);
-            expect(quantity2).toBe(quantity);
-            expect(new Date(date2)).toEqual(date);
-            expect(status).toBe("placed");
-            expect(complete2).toBe(complete);
+            expect(res.data.id).toBe(order.id)
+            expect(res.data.petId).toBe(order.petId);
+            expect(res.data.quantity).toBe(order.quantity);
+            expect(new Date(res.data.shipDate)).toEqual(order.shipDate);
+            expect(res.data.status).toBe(order.status);
+            expect(res.data.complete).toBe(order.complete);
         })
     });
 
+    //Test order querying
     test('Get order for a pet', () =>{       
-        expect.assertions(5);
-        return getOrder(800)
+        expect.assertions(6);
+        return getOrder(order.id)
         .then(res =>{
-            let id = res.id;
-            let quantity2 = res.quantity;
-            let date2 = res.shipDate;
-            let status = res.status;
-            let complete2 = res.complete;
-
-            expect(id).toBe(800);
-            expect(quantity2).toBe(quantity);
-            expect(new Date(date2)).toEqual(date);
-            expect(status).toBe("placed");
-            expect(complete2).toBe(complete);
+            expect(res.data.id).toBe(order.id)
+            expect(res.data.petId).toBe(order.petId);
+            expect(res.data.quantity).toBe(order.quantity);
+            expect(new Date(res.data.shipDate)).toEqual(order.shipDate);
+            expect(res.data.status).toBe(order.status);
+            expect(res.data.complete).toBe(order.complete);
 
         });
     });
 
+    //Query an order that does not exist
     test('Get an order that does not exists', ()=>{
-     expect.assertions(2); 
-     return getOrder(9876).then(res =>{          
+     expect.hasAssertions(); 
+     return getOrder(9876).then(res =>{
+         expect(res.status).not.toBe(200);      
         }).catch(err =>{
             expect(err.response.data.message).toBe("Order not found");
             expect(err.response.status).toBe(404);
-        })
-    })   
+        });
+    });
 });
+       
 
+//Delete an order
 describe('Order deletion', () =>{
-    //Data mocking
-    let name = faker.name.firstName();
-    let date = new Date();
-    let quantity = faker.random.number();
+    let pet;
+    let order;
     //Setup
     beforeAll(async () => {
-        await postPet(255,name, [], "available");
-        await postOrder(555, 255, quantity, date, "placed",true);
+        if(fakeData === true){
+            pet = fakePetData();
+            order = fakeOrderData(pet.id);
+        }
+        else{
+            let data = config.orderdeletion;
+            pet = data.pet;
+            order = data.order;
+            let tempDate = order.shipDate;
+            order.shipDate = new Date(tempDate);
+        }
+        await postPet(pet);
+        await postOrder(order);
     });
     //Teardown
     afterAll(async()=> {
-        await deletePet(255);
+        await deletePet(pet.id);
+        pet = null;
+        order = null;
     });
-    //Test
+    //Test that the order is deleted
     test('Delete order', ()=>{
         expect.assertions(1);
-        return deleteOrder(555).then(res => {
-            expect(res.code).toBe(200);
+        return deleteOrder(order.id).then(res => {
+            expect(res.data.code).toBe(200)
+        }).catch((err)=>{
+            throw err;
         })
     });
 
+    //Test deleting an order that does not exist
     test('Delete order that does not exist', () =>{
         expect.assertions(2);
-        return deleteOrder(1920).then().catch(err =>{
-            expect(err.response.data.message).toBe("Order Not Found");
-            expect(err.response.status).toBe(404);
+        return deleteOrder(1920).then(res => {
+            expect(res.status).not.toBe(200);
+        }).catch(err =>{
+            if(err !== undefined){
+                expect(err.response.data.message).toBe("Order Not Found");
+                expect(err.response.status).toBe(404);
+            }
+            else{
+                throw err;
+            }
         });
 
     });
 });
 
+//Test orders with incorrect data (logic)
 describe('Post orders with faulty data', () =>{
     //Data mocking
-    let orderId = 784
-    let date = new Date();
-    let quantity = faker.random.number();
-    let petId = 889;
-    let complete = faker.random.boolean();
+    let petId;
+    let order;
+    if (fakeData === true){
+        petId = mockId();
+        order = fakeOrderData(petId);
+    }
+    else{
+        let data = config.orderwithfaultydata;
+        petId = data.petId;
+        order = data.id;
+    }
     //Teardown
     afterAll(async() =>{
-        deleteOrder(784);
+        deleteOrder(order.id);
+        petId = null;
+        order = null;
     });
     
-    //Test
+    //Post a purchase order for a pet that doesn't exist
     test('Post order with a pet that does not exist', ()=>{
         expect.assertions(1);
-        return postOrder(orderId, petId, quantity, date, "pending", complete).then()
+        return postOrder(order).then(res =>{
+            expect(res.status).not.toBe(200);
+        })
         .catch((err)=>{
-            expect(err.response.status).toBe(500);
+            if(err.response != undefined){
+                expect(err.response.status).toBe(500);
+            }
+            else {
+                throw err;
+            }
         });
+    });
+
+
+describe('place an order for a pet that is already sold', () =>{
+    let pet;
+    let order;
+    //SETUP
+    beforeAll(async()=>{
+        if (fakeData === true){
+            pet = fakePetData();
+            pet.status = 'sold';
+            order = fakeOrderData(pet.id);
+        }
+        else{
+            let data = config.orderwithsoldpet;
+            pet = data.pet;
+            order = data.order;
+        }         
+        postPet(pet);
+    })
+    //Teardown
+    afterAll(async() =>{
+        deletePet(pet.id);
+        deleteOrder(order.id);
+        pet = null;
+        order = null;
+    })
+
+    test('Create order for sold pet', () =>{
+            expect.assertions(1);
+            return postOrder(order).then(res =>{
+                expect(res.status).not.toBe(200);
+            }).catch(err =>{
+                if(err.response != undefined){
+                    expect(err.response.status).toBe(400);
+                }
+                else {
+                    throw err;
+                }
+            })
+        })
     });
 });
 

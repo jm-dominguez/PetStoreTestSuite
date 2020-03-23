@@ -1,40 +1,99 @@
 const {getOrder, deleteOrder, postOrder} = require('../../index.js');
 const {postPet, deletePet} = require('../../helper/helper.js');
-const faker = require('faker');
+const {fakePetData, fakeOrderData, getPastDate, getNegativeQuantity, getAlphanumericValue} = require('../../helper/fake.js')
+
 
 describe('negative tests for the order services', () =>{
-    //Data mocking
-    let name = faker.name.firstName();
-    let quantity = faker.random.number();
-    let complete = faker.random.boolean();
-    let date = faker.date.past();
+    let pet1; 
+    let pet2; 
+    let pet3;
+    let order1;
+    let order2;
+    let order3;
+    let invalidId = getAlphanumericValue(10);
     //Setup
     beforeAll(async () => {  
-        await postPet(255,name, [], "available");
-        await postPet(256, name, [], "available");
-    });
+        pet1 = fakePetData();
+        pet2 = fakePetData();
+        pet3 = fakePetData();
+        order1 = fakeOrderData(pet1.id);
+        order1.shipDate = getPastDate();
+        order2 = fakeOrderData(pet2.id);
+        order2.quantity = getNegativeQuantity;
+        order3 = fakeOrderData(pet3.id);
+        order3.id = invalidId;
+
+        await postPet(pet1);
+        await postPet(pet2);
+        await postPet(pet3);
+    })
     //Teardown
     afterAll(async () => {
-        await deletePet(255);
-        await deletePet(256);
-        await deleteOrder(555);
-        await deleteOrder(556);
-    });
+        await deletePet(pet1.id);
+        await deletePet(pet2.id);
+        await deletePet(pet3.id);
+        await deleteOrder(order1.id);
+        await deleteOrder(order2.id);
+        await deleteOrder(order3.id);
+    })
 
     test('create an order with a past date', () =>{
+        order1.shipDate = getPastDate();
         expect.assertions(1);
-        return postOrder(555, 255, quantity, date, "pending", complete)
-        .then().catch(err =>{
-            expect(err.response.status).toBe(500);
+        return postOrder(order1)
+        .then(res =>{
+            expect(res.status).not.toBe(200);
+        }).catch(err =>{
+            if(err.response !== undefined){
+                expect(err.response.status).toBe(400);
+            }
+            else{
+                throw err;
+            }
+            
         })
         
     })
-    let wrongQuantity = faker.random.number({max:-1});
+
     test('create an order with a negative quantity', ()=>{
         expect.assertions(1);
-        return postOrder(556, 256, wrongQuantity, new Date(), "pending", complete).then()
+        return postOrder(order2).then(res =>{
+            expect(res.status).not.toBe(200);
+        })
         .catch(err =>{
-            expect(err.response.status).toBe(500);
+            if(err.response !== undefined){
+                expect(err.response.status).toBe(400);
+            }  
+            else{
+                throw err;
+            }   
         });
+    })
+
+    test('create an order with an invalid id', () =>{
+        expect.assertions(1);
+        return postOrder(order3).then(res =>{
+            expect(res.status).not.toBe(200);
+        }).catch(err =>{
+            if(err.response !== undefined){
+                expect(err.response.status).toBe(400);
+            }
+            else{
+                throw err;
+            }
+        });
+    });
+
+    test('get and order with an invalid id', () =>{
+        expect.assertions(1);
+        return getOrder(invalidId).then(res =>{
+            expect(res.status).not.toBe(200);
+        })
+        .catch(err =>{
+            if(err.response !== undefined){
+                expect(err.response.status).toBe(400)
+                console.log(err.response.message);
+            }
+        })
     })
 });

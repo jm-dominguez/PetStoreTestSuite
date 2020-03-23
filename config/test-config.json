@@ -1,0 +1,81 @@
+{
+    "integration": {
+        "order": {
+            "createandqueryorder": {
+                "pet": {
+                    "id": 87,
+                    "name": "Dante",
+                    "photosUrls": [],
+                    "status": "available" 
+                },                
+                "order": {
+                    "id": 80,
+                    "petId": 87,
+                    "quantity": 2,
+                    "shipDate": "2020-03-25",
+                    "status": "available",
+                    "complete": true
+                }
+            },
+
+            "orderdeletion": {
+                "pet": {
+                    "id": 220,
+                    "name": "Rickey",
+                    "photosUrls": [],
+                    "status": "sold"
+
+                },
+                "order": {
+                    "id": 152,
+                    "petId": 220,
+                    "quantity": 1,
+                    "shipDate": "2020-01-25",
+                    "status": "sad",
+                    "complete": false
+                }
+            },
+            "orderwithfaultydata": {
+                "petId": 68,
+                "order": {
+                    "id": 897,
+                    "petId": 68,
+                    "quantity": 1,
+                    "shipDate": "2020-01-25",
+                    "status": "sad",
+                    "complete": false
+                }
+            },
+            "orderwithsoldpet": {
+                "pet": {
+                    "id": 548,
+                    "name": "Pluto",
+                    "photosUrls": [],
+                    "status": "sold"
+
+                },
+                "order": {
+                    "id": 563,
+                    "petId": 548,
+                    "quantity": 3,
+                    "shipDate": "2020-10-10",
+                    "status": "available",
+                    "complete": true
+                }
+            }
+        },
+        
+        "inventory":{
+            "inventorydatachanges": {
+                "pet":{
+                    "id": 548,
+                    "name": "Pluto",
+                    "photosUrls": [],
+                    "status": "newStatus"
+                }
+            }
+
+        }
+    }
+
+}

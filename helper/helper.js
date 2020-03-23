@@ -1,3 +1,4 @@
+// Required modules
 const axios = require('axios');
 const qs = require('qs');
 //Get the base url from the properties file.
@@ -7,14 +8,8 @@ const BASE_URL = properties.get('BASE_URL');
 
 //Helper functions for accesing services that are not tested in this project.
 
-const postPet = (pId, pName, pPhotosUrls, pStatus) =>{
+const postPet = async (pet) =>{
     //Function for posting a pet
-    let pet = {
-        id: pId,
-        name: pName,
-        photosUrls: pPhotosUrls,
-        status: pStatus
-    }
     return axios.post(BASE_URL + 'pet/',pet)
                 .then(res =>{
                     return res.data
@@ -25,7 +20,7 @@ const postPet = (pId, pName, pPhotosUrls, pStatus) =>{
 
 };
 
-const deletePet = (petId)=>{
+const deletePet = async (petId)=>{
     //Function for deleting a pet
     return axios.delete(BASE_URL + 'pet/' + petId)
                 .then(res =>{
@@ -36,14 +31,8 @@ const deletePet = (petId)=>{
                 })
 };
 
-const updatePet = (pId, pName, pPhotosUrls, pStatus)=>{
+const updatePet = async (pet)=>{
     //Function for updating a pet
-    let pet = {
-        id: pId,
-        name: pName,
-        photosUrls: pPhotosUrls,
-        status: pStatus
-    }
     return axios.put(BASE_URL + 'pet/',pet)
                 .then(res =>{
                     return res.data
@@ -53,7 +42,7 @@ const updatePet = (pId, pName, pPhotosUrls, pStatus)=>{
                 })
 };
 
-const updatePetWithForm = (pId, pName, pStatus)=>{
+const updatePetWithForm = async (pId, pName, pStatus)=>{
     let formData = new FormData();
     formData.append("name", pName);
     formData.append("status", pStatus);
