@@ -2,12 +2,6 @@ const {getInventory} = require('../../index.js');
 const {postPet, deletePet, updatePet, updatePetWithForm} = require('../../helper/helper.js');
 const {fakePetData} = require('../../helper/fake.js');
 
-// let fakeData = shouldFakeData();
-// let config;
-// if(fakeData === false){
-//     config = getIntegrationOrderConfig();
-// };
-
 //Get Inventory
 test('getInventory data types are correct', ()=>{
     //Test
@@ -68,7 +62,6 @@ describe('Test inventory data changes', ()=>{
     });
 
     afterAll(async()=>{
-        console.log('He sido llamado');
         await deletePet(pet1.id);
         await deletePet(pet2.id);
         await deletePet(pet3.id);
@@ -78,10 +71,9 @@ describe('Test inventory data changes', ()=>{
     test('InventoryNumbersIncrease', async ()=>{
         expect.assertions(3);
         let response = await getInventory();
-        let data = response.data;
-        expect(data.available).toBe(availableInitial + 1)
-        expect(data.sold).toBe(soldInitial + 1);
-        expect(data.pending).toBe(pendingInitial + 2);
-        console.log('TEST FINALIZADO')
+        let data1 = response.data;
+        expect(data1.sold).toBe(soldInitial + 1);
+        expect(data1.pending).toBe(pendingInitial + 2);
+        expect(data1.available).toBe(availableInitial + 1)
     });
 });
