@@ -24,19 +24,19 @@ const fakeOrderData = (pPetId) =>{
 
     return order;
 }
-
+// Get a past date
 const getPastDate = () =>{
     return faker.date.past();
 }
-
+// Get a negative value
 const getNegativeQuantity = () =>{
     return faker.random.number({max: -1});
 }
-
+// Get an alphanumeric random string
 const getAlphanumericValue = (lentgh) =>{
     return faker.random.alphaNumeric(length);
 }
-
+// Get an id
 const mockId = () =>{
     return faker.random.number({min:1, max:500});
 }

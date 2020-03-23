@@ -8,8 +8,8 @@ const BASE_URL = properties.get('BASE_URL');
 
 //Helper functions for accesing services that are not tested in this project.
 
+//Post a pet
 const postPet = async (pet) =>{
-    //Function for posting a pet
     return axios.post(BASE_URL + 'pet/',pet)
                 .then(res =>{
                     return res.data
@@ -20,6 +20,7 @@ const postPet = async (pet) =>{
 
 };
 
+//Delete a pet
 const deletePet = async (petId)=>{
     //Function for deleting a pet
     return axios.delete(BASE_URL + 'pet/' + petId)
@@ -31,6 +32,7 @@ const deletePet = async (petId)=>{
                 })
 };
 
+//Update a pet
 const updatePet = async (pet)=>{
     //Function for updating a pet
     return axios.put(BASE_URL + 'pet/',pet)
@@ -41,7 +43,7 @@ const updatePet = async (pet)=>{
                     console.log(err);
                 })
 };
-
+// Update a pet using forms
 const updatePetWithForm = async (pId, pName, pStatus)=>{
     let formData = new FormData();
     formData.append("name", pName);

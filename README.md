@@ -35,7 +35,13 @@ cd PetStoreTestSuite
 ```
 npm install
 ```
-4. Execute
+4. Go to config.properties file and configure the project
+´´´
+BASE_URL = https://petstore.swagger.io/v2/
+API_KEY = special-key
+FAKE_DATA = true
+´´´
+5. Execute
 ```
 npm test
 ```
@@ -60,4 +66,4 @@ For testing the different functionalities the approach was the following:
     - Adding new pet status and checking that the inventory is updated.
     - Creating a purchase order for a pet that is already sold.
 
-* After identifying the test cases, I wrote them with their respective pre-conditions, steps and expected results in a Excel file. It can be found under the /docs directory of this repository,
+- After identifying the test cases, I wrote them with their respective pre-conditions, steps and expected results in an Excel file. It can be found under the /docs directory of this repository. In the same document I also gave a priority to the test cases, giving the highest priority to the cases that directly tested business logic for orders, as this is the main function an the one that is more mission critical. Then, I gave a second priority to the cases that tested inventory business logic as this is the secondary function of the module. Finally, I gave a third priority to the test cases that tested input (negative tests). 

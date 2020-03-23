@@ -10,7 +10,7 @@ if(fakeData === false){
 };
 
 //Create and Query an order
-describe('create and query an order for a pet ', ()=>{
+describe('create order logic', ()=>{
     let pet; 
     let order; 
     //Setup

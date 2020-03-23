@@ -5,7 +5,14 @@ const {fakePetData} = require('../../helper/fake.js');
 //Get Inventory
 test('getInventoryValidation', ()=>{
     //Test
-    expect.assertions(3);
+    let numberOfProperties;
+    beforeAll(async()=>{
+        await getInventory().then(res => {
+            numberOfProperties = Object.keys(res.data).length;           
+        })
+    })
+
+    expect.assertions(numberOfProperties);
     return getInventory().then((res)=>{
         Object.values(res.data).forEach((v, i)=>{
             expect(typeof v).toBe("number");

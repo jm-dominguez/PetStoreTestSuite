@@ -6,6 +6,8 @@ const properties = PropertiesReader('./config.properties');
 const BASE_URL = properties.get('BASE_URL');
 
 //Functions to acces the API
+
+//Get inventory
 const getInventory = () =>{
     return axios.get(BASE_URL + 'store/inventory')
                 .then(res =>{
@@ -15,7 +17,7 @@ const getInventory = () =>{
                     throw(err);
                 })
 }
-
+// Get order
 const getOrder = (orderId)=>{
     return axios.get(BASE_URL + 'store/order/' + orderId)
                 .then(res =>{
@@ -25,7 +27,7 @@ const getOrder = (orderId)=>{
                     throw err;
                 });
 }
-
+// Delete order
 const deleteOrder = (orderId) =>{
     return axios.delete(BASE_URL + 'store/order/' + orderId)
                 .then(res =>{
@@ -35,7 +37,7 @@ const deleteOrder = (orderId) =>{
                     throw err;
                 });
 }
-
+// Create order
 const postOrder = (order) =>{
     return axios.post(BASE_URL + 'store/order', order)
                 .then(res =>{
