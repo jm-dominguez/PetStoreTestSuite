@@ -40,4 +40,24 @@ npm install
 npm test
 ```
 
+## Testing approach
 
+For testing the different functionalities the approach was the following:
+
+- Firstly, I studied the different urls and identified the "happy path" of each url. In other words, I identified the conditions under which the response of the the request should be succesful and created the corresponding test cases.
+
+- Then, I identified business logic erros that could happen in an individual request and created the corresponding test cases, for instance: 
+    - Creating an order with future shipment date, but with a delivered status.
+    - Creating a purchase order with a negative quantity.
+
+- Thirdly, I created test cases corresponding to negative testing. This means,  creating test cases where an invalid input is used. For example: 
+    - Querying an order with an invalid id.
+    - Creating an order with an invalid id.
+
+- Finally, I identified more complex business logic scenarios, that depended on more services and created the corresponding test cases, for example:
+    - Creating a purchase order for a pet that does not exists.
+    - Modifying pet status and checking that the inventory is updated.
+    - Adding new pet status and checking that the inventory is updated.
+    - Creating a purchase order for a pet that is already sold.
+
+* After identifying the test cases, I wrote them with their respective pre-conditions, steps and expected results in a Excel file. It can be found under the /docs directory of this repository,
