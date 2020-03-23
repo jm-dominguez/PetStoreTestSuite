@@ -10,7 +10,7 @@ test('getInventoryValidation', ()=>{
         await getInventory().then(res => {
             numberOfProperties = Object.keys(res.data).length;           
         })
-    })
+    });
 
     expect.assertions(numberOfProperties);
     return getInventory().then((res)=>{
@@ -81,7 +81,7 @@ describe('changeInventoryValidation', ()=>{
         let data1 = response.data;
         expect(data1.sold).toBe(soldInitial + 1);
         expect(data1.pending).toBe(pendingInitial + 2);
-        expect(data1.available).toBe(availableInitial + 1)
+        expect(data1.available).toBe(availableInitial + 1);
     });
 });
 
@@ -96,7 +96,7 @@ describe('add a new status to the inventory', ()=>{
 
     afterAll(async()=>{
         await deletePet(pet.id);
-    })
+    });
 
     test('addInventoryStatus', ()=>{
         expect.assertions(1);
@@ -124,7 +124,7 @@ describe('check inventory change after pet update', ()=>{
             else{
                 finalStatusCount = 0;
             }
-        })
+        });
     });
 
     test('validateInventoryWithPetChange', async ()=>{
@@ -145,6 +145,6 @@ describe('check inventory change after pet update', ()=>{
 
     afterAll(async()=>{
         deletePet(pet.id);
-    })
+    });
 
 });

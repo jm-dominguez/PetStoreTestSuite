@@ -16,7 +16,7 @@ const postPet = async (pet) =>{
                 })
                 .catch(err=>{
                     console.log(err);
-                })
+                });
 
 };
 
@@ -29,7 +29,7 @@ const deletePet = async (petId)=>{
                 })
                 .catch(err=>{
                     throw err;
-                })
+                });
 };
 
 //Update a pet
@@ -41,7 +41,7 @@ const updatePet = async (pet)=>{
                 })
                 .catch(err=>{
                     console.log(err);
-                })
+                });
 };
 
 // Update a pet using forms

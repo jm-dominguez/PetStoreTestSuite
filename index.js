@@ -1,4 +1,3 @@
-'use strict';
 const axios = require('axios');
 //Get the base url from the properties file.
 const PropertiesReader = require('properties-reader');
@@ -15,8 +14,8 @@ const getInventory = () =>{
                 })
                 .catch(err =>{
                     throw(err);
-                })
-}
+                });
+};
 // Get order
 const getOrder = (orderId)=>{
     return axios.get(BASE_URL + 'store/order/' + orderId)
@@ -26,7 +25,7 @@ const getOrder = (orderId)=>{
                 .catch(err =>{
                     throw err;
                 });
-}
+};
 // Delete order
 const deleteOrder = (orderId) =>{
     return axios.delete(BASE_URL + 'store/order/' + orderId)
@@ -36,7 +35,7 @@ const deleteOrder = (orderId) =>{
                 .catch(err=>{
                     throw err;
                 });
-}
+};
 // Create order
 const postOrder = (order) =>{
     return axios.post(BASE_URL + 'store/order', order)
@@ -45,8 +44,8 @@ const postOrder = (order) =>{
                 })
                 .catch(err =>{
                     throw err;
-                })
-}
+                });
+};
 
 exports.getInventory = getInventory;
 exports.getOrder = getOrder;

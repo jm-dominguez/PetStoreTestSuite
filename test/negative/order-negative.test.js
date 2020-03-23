@@ -1,6 +1,6 @@
 const {getOrder, deleteOrder, postOrder} = require('../../index.js');
 const {postPet, deletePet} = require('../../helper/helper.js');
-const {fakePetData, fakeOrderData, getAlphanumericValue} = require('../../helper/fake.js')
+const {fakePetData, fakeOrderData, getAlphanumericValue} = require('../../helper/fake.js');
 
 
 describe('negative tests for the order services', () =>{  
@@ -26,7 +26,7 @@ describe('negative tests for the order services', () =>{
     //Teardown
     afterAll(async () => {
         await deletePet(pet3.id);
-        await deletePet(pet4.id)
+        await deletePet(pet4.id);
     })
 
     test('postOrderWithInvalidId', () =>{
@@ -52,7 +52,7 @@ describe('negative tests for the order services', () =>{
             if(err.response !== undefined){
                 expect(err.response.status).toBe(400);
             }
-        })
+        });
     })
     test('deleteOrderWithInvalidId', () =>{
         expect.assertions(1);
@@ -63,7 +63,7 @@ describe('negative tests for the order services', () =>{
             if(err.response !== undefined){
                 expect(err.response.status).toBe(400);
             }
-        })
+        });
     });
 
     test('createOrderWithInvalidQuantity', ()=>{
@@ -73,6 +73,6 @@ describe('negative tests for the order services', () =>{
         })
         .catch(err =>{
             expect(err.response.status).toBe(400);
-        })
-    })
+        });
+    });
 });
