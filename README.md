@@ -36,11 +36,11 @@ cd PetStoreTestSuite
 npm install
 ```
 4. Go to config.properties file and configure the project using the API key and the base url
-``
+```
 BASE_URL = https://petstore.swagger.io/v2/
 API_KEY = special-key
 
-``
+```
 5. Execute
 ```
 npm test
