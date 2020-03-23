@@ -21,5 +21,23 @@ Axios is a promised based http client. I used it to access the endpoint that was
 
 Faker is a nodejs library for faking data. I used it to generate random data when testing different test cases. As testing with random data is a useful way to find bugs that might not be discovered when testing with "normal" data.
 
-## Setup
+## Setup and execution.
+
+1. Clone the repository using:
+```
+git clone https://github.com/jm-dominguez/PetStoreTestSuite
+```
+2. Open the project
+```
+cd PetStoreTestSuite
+```
+3. Install dependencies
+```
+npm install
+```
+4. Execute
+```
+npm test
+```
+
 
