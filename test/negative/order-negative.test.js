@@ -1,6 +1,6 @@
 const {getOrder, deleteOrder, postOrder} = require('../../index.js');
 const {postPet, deletePet} = require('../../helper/helper.js');
-const {fakePetData, fakeOrderData, getAlphanumericValue, getRandomString} = require('../../helper/fake.js')
+const {fakePetData, fakeOrderData, getAlphanumericValue} = require('../../helper/fake.js')
 
 
 describe('negative tests for the order services', () =>{  

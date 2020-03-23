@@ -1,5 +1,5 @@
 const {getInventory} = require('../../index.js');
-const {postPet, deletePet, updatePet, updatePetWithForm} = require('../../helper/helper.js');
+const {postPet, deletePet, updatePetWithForm} = require('../../helper/helper.js');
 const {fakePetData, getRandomString} = require('../../helper/fake.js');
 
 //Get Inventory

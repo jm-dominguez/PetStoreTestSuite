@@ -4,7 +4,7 @@
   "description": "Test Suite for pet store API",
   "main": "index.js",
   "scripts": {
-    "test": "jest -i" 
+    "test": "jest -i --watchAll" 
   },
   "repository": {
     "type": "git",
