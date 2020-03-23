@@ -123,7 +123,7 @@ describe('create and query orders', ()=>{
             expect(res.status).not.toBe(200);
         })
         .catch(err => {
-            if(err.response.status !== undefined){
+            if(err.response !== undefined){
                 expect(err.response.status).toBe(400);
             }
             else{
