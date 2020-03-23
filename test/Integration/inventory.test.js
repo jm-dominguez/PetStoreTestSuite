@@ -3,7 +3,7 @@ const {postPet, deletePet, updatePet, updatePetWithForm} = require('../../helper
 const {fakePetData} = require('../../helper/fake.js');
 
 //Get Inventory
-test('getInventory data types are correct', ()=>{
+test('getInventoryValidation', ()=>{
     //Test
     expect.assertions(3);
     return getInventory().then((res)=>{
@@ -15,7 +15,7 @@ test('getInventory data types are correct', ()=>{
     });
 });
 
-describe('Test inventory data changes', ()=>{
+describe('changeInventoryValidation', ()=>{
     let soldInitial;
     let pendingInitial;
     let availableInitial;

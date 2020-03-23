@@ -37,7 +37,7 @@ describe('negative tests for the order services', () =>{
         await deleteOrder(order3.id);
     })
 
-    test('create an order with a past date', () =>{
+    test('postOrderWithPreviousShipDate', () =>{
         order1.shipDate = getPastDate();
         expect.assertions(1);
         return postOrder(order1)
@@ -55,7 +55,7 @@ describe('negative tests for the order services', () =>{
         
     })
 
-    test('create an order with a negative quantity', ()=>{
+    test('postOrderWithNegativeQuantity', ()=>{
         expect.assertions(1);
         return postOrder(order2).then(res =>{
             expect(res.status).not.toBe(200);
@@ -70,7 +70,7 @@ describe('negative tests for the order services', () =>{
         });
     })
 
-    test('create an order with an invalid id', () =>{
+    test('postOrderWithInvalidId', () =>{
         expect.assertions(1);
         return postOrder(order3).then(res =>{
             expect(res.status).not.toBe(200);
@@ -84,7 +84,7 @@ describe('negative tests for the order services', () =>{
         });
     });
 
-    test('get and order with an invalid id', () =>{
+    test('getOrderWithInvalidId', () =>{
         expect.assertions(1);
         return getOrder(invalidId).then(res =>{
             expect(res.status).not.toBe(200);

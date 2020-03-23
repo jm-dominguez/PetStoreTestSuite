@@ -3,7 +3,7 @@ const faker = require('faker');
 // Fake data for pet requests
 const fakePetData = () =>{
     let pet = {
-        id: faker.random.number({min:50000, max:55000}),
+        id: faker.random.number({min:200, max:900}),
         name: faker.name.firstName(),
         photosUrls: [],
         status: "available"

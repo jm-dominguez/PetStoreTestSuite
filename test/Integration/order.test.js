@@ -37,7 +37,7 @@ describe('create and query an order for a pet ', ()=>{
     });
 
     //Test order creation
-    test('Post a buy order for a pet', ()=>{
+    test('createOrder', ()=>{
         expect.assertions(6);
         return postOrder(order)
         .then(res =>{
@@ -51,7 +51,7 @@ describe('create and query an order for a pet ', ()=>{
     });
 
     //Test order querying
-    test('Get order for a pet', () =>{       
+    test('queryOrder', () =>{       
         expect.assertions(6);
         return getOrder(order.id)
         .then(res =>{
@@ -66,7 +66,7 @@ describe('create and query an order for a pet ', ()=>{
     });
 
     //Query an order that does not exist
-    test('Get an order that does not exists', ()=>{
+    test('queryNonExistentOrder', ()=>{
      expect.hasAssertions(); 
      return getOrder(9876).then(res =>{
          expect(res.status).not.toBe(200);      
@@ -105,7 +105,7 @@ describe('Order deletion', () =>{
         order = null;
     });
     //Test that the order is deleted
-    test('Delete order', ()=>{
+    test('deleteOrder', ()=>{
         expect.assertions(1);
         return deleteOrder(order.id).then(res => {
             expect(res.data.code).toBe(200)
@@ -115,7 +115,7 @@ describe('Order deletion', () =>{
     });
 
     //Test deleting an order that does not exist
-    test('Delete order that does not exist', () =>{
+    test('deleteNonExistentOrder', () =>{
         expect.assertions(2);
         return deleteOrder(1920).then(res => {
             expect(res.status).not.toBe(200);
@@ -133,7 +133,7 @@ describe('Order deletion', () =>{
 });
 
 //Test orders with incorrect data (logic)
-describe('Post orders with faulty data', () =>{
+describe('Post order with pet that doesn\'t exists', () =>{
     //Data mocking
     let petId;
     let order;
@@ -154,7 +154,7 @@ describe('Post orders with faulty data', () =>{
     });
     
     //Post a purchase order for a pet that doesn't exist
-    test('Post order with a pet that does not exist', ()=>{
+    test('postOrderWithNonExistentPet', ()=>{
         expect.assertions(1);
         return postOrder(order).then(res =>{
             expect(res.status).not.toBe(200);
@@ -195,7 +195,7 @@ describe('place an order for a pet that is already sold', () =>{
         order = null;
     })
 
-    test('Create order for sold pet', () =>{
+    test('postOrderWithSoldPet', () =>{
             expect.assertions(1);
             return postOrder(order).then(res =>{
                 expect(res.status).not.toBe(200);
