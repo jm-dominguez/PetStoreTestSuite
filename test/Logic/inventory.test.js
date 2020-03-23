@@ -1,6 +1,6 @@
 const {getInventory} = require('../../index.js');
 const {postPet, deletePet, updatePet, updatePetWithForm} = require('../../helper/helper.js');
-const {fakePetData} = require('../../helper/fake.js');
+const {fakePetData, getRandomString} = require('../../helper/fake.js');
 
 //Get Inventory
 test('getInventoryValidation', ()=>{
@@ -18,7 +18,7 @@ test('getInventoryValidation', ()=>{
             expect(typeof v).toBe("number");
         })
     }).catch(err =>{
-        console.log(err);
+        throw err;
     });
 });
 
@@ -83,4 +83,68 @@ describe('changeInventoryValidation', ()=>{
         expect(data1.pending).toBe(pendingInitial + 2);
         expect(data1.available).toBe(availableInitial + 1)
     });
+});
+
+describe('add a new status to the inventory', ()=>{
+    let newStatus = getRandomString();
+    let pet = fakePetData();
+    pet.status = newStatus;
+
+    beforeAll(async()=>{
+        await postPet(pet);
+    })
+
+    afterAll(async()=>{
+        await deletePet(pet.id);
+    })
+
+    test('addInventoryStatus', ()=>{
+        expect.assertions(1);
+        return getInventory().then(res =>{
+            let data1 = res.data;
+            expect(data1[newStatus]).toBe(1);
+        });
+    });
+});
+
+describe('check inventory change after pet update', ()=>{
+    let pet = fakePetData();
+    let initialStatus = getRandomString();
+    pet.status = initialStatus;
+    let finalStatus = getRandomString();
+    let initialStatusCount;
+    let finalStatusCount;
+    beforeAll(async () =>{
+        await postPet(pet);
+        await getInventory().then(res =>{
+            initialStatusCount = res.data[initialStatus];
+            if(res.data[finalStatus] !== undefined){
+                finalStatusCount = res.data[finalStatus]
+            }
+            else{
+                finalStatusCount = 0;
+            }
+        })
+    });
+
+    test('validateInventoryWithPetChange', async ()=>{
+        expect.assertions(2);
+        await updatePetWithForm(pet.id, pet.name, finalStatus);
+        let response = await getInventory();
+        let inventory = response.data;
+        let initialStatusEndCount;
+        if(inventory[initialStatus] === undefined){
+            initialStatusEndCount = 0;
+        }
+        else{
+            initialStatusEndCount = inventory[initialStatus];
+        }
+        expect(initialStatusEndCount).toBe(initialStatusCount - 1);
+        expect(inventory[finalStatus]).toBe(finalStatusCount + 1);
+    })
+
+    afterAll(async()=>{
+        deletePet(pet.id);
+    })
+
 });

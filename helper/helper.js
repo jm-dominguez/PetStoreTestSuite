@@ -1,10 +1,10 @@
 // Required modules
 const axios = require('axios');
-const qs = require('qs');
 //Get the base url from the properties file.
 const PropertiesReader = require('properties-reader');
 const properties = PropertiesReader('./config.properties');
 const BASE_URL = properties.get('BASE_URL');
+const qs = require('qs');
 
 //Helper functions for accesing services that are not tested in this project.
 
@@ -43,12 +43,9 @@ const updatePet = async (pet)=>{
                     console.log(err);
                 })
 };
-// Update a pet using forms
-const updatePetWithForm = async (pId, pName, pStatus)=>{
-    let formData = new FormData();
-    formData.append("name", pName);
-    formData.append("status", pStatus);
 
+// Update a pet using forms
+const updatePetWithForm = (pId, pName, pStatus)=>{
     return axios({
         method: 'post',
         url: BASE_URL + 'pet/' + pId,
