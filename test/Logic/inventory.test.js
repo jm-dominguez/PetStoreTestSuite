@@ -61,11 +61,6 @@ describe('changeInventoryValidation', ()=>{
         pet3.status = "pending";
         pet4 = fakePetData();
         pet4.status = "sold";
-
-        await postPet(pet1);
-        await postPet(pet2);
-        await postPet(pet3);
-        await postPet(pet4);
     });
 
     afterAll(async()=>{
@@ -76,6 +71,10 @@ describe('changeInventoryValidation', ()=>{
     })
 
     test('InventoryNumbersIncrease', async ()=>{
+        await postPet(pet1);
+        await postPet(pet2);
+        await postPet(pet3);
+        await postPet(pet4);
         expect.assertions(3);
         let response = await getInventory();
         let data1 = response.data;
