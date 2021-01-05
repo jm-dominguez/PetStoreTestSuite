@@ -20,7 +20,7 @@
     "jest": "^25.1.0"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "faker": "^4.1.0",
     "jest-leak-detector": "^25.1.0",
     "properties-reader": "^1.0.0",
