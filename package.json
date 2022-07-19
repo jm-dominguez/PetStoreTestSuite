@@ -23,7 +23,7 @@
     "axios": "^0.19.2",
     "faker": "^4.1.0",
     "jest-leak-detector": "^25.1.0",
-    "properties-reader": "^1.0.0",
+    "properties-reader": "^2.2.0",
     "qs": "^6.9.1",
     "weak-napi": "^1.0.3"
   }
