@@ -24,7 +24,7 @@
     "faker": "^4.1.0",
     "jest-leak-detector": "^25.1.0",
     "properties-reader": "^1.0.0",
-    "qs": "^6.9.1",
+    "qs": "^6.9.7",
     "weak-napi": "^1.0.3"
   }
 }
